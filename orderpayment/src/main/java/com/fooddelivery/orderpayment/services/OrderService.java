@@ -1,5 +1,8 @@
 package com.fooddelivery.orderpayment.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fooddelivery.orderpayment.kafka.OrderEventPublisher;
 import com.fooddelivery.orderpayment.model.Order;
 import com.fooddelivery.orderpayment.model.OrderItem;
 import com.fooddelivery.orderpayment.repository.OrderRepository;
@@ -15,11 +18,20 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;  // provide DB operations like save, findById()
+    @Autowired
+    private OrderEventPublisher orderEventPublisher;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     // create order
-    public Order createOrder(Order order){
+    public Order createOrder(Order order) throws JsonProcessingException {
         order.setCreatedAt(LocalDateTime.now());
         order.setStatus("PENDING");
+
+        String json = objectMapper.writeValueAsString(order);
+        orderEventPublisher.sendOrderEvent(json);
+
+
         return orderRepository.save(order);
     }
 

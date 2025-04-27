@@ -17,7 +17,8 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>orderpayment</module>
-    <module>Restaurant</module>
+    <module>restaurant</module>
+    <module>deliveryservice</module>
   </modules>
 
   <build>
