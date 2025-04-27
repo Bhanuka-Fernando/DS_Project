@@ -18,6 +18,7 @@
   <modules>
     <module>orderpayment</module>
     <module>restaurant</module>
+    <module>deliveryservice</module>
   </modules>
 
   <build>
