@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StripeService {
 
-//    @Value("${stripe.secretKey}")
+    @Value("${stripe.secretKey}")
     private String secretKey;
 
     public StripeResponse checkoutProducts(ProductRequest productRequest){
-//         Stripe.apiKey = secretKey;
+         Stripe.apiKey = secretKey;
 
         SessionCreateParams.LineItem.PriceData.ProductData productData =  new SessionCreateParams.LineItem.PriceData.ProductData.Builder()
                 .setName(productRequest.getName()).build();
@@ -36,7 +36,7 @@ public class StripeService {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/cart")  // success navigate to this endpoint
+                .setSuccessUrl("http://localhost:3000/payment-success")  // success navigate to this endpoint
                 .setCancelUrl("http://localhost:8080/cancel")
                 .addLineItem(lineItem)
                 .build();
