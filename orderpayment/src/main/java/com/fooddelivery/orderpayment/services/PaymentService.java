@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -34,6 +35,27 @@ public class PaymentService {
     // For getting all payments
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
+    }
+
+    // get payment by ID
+    public Optional<Payment> getPaymentById(String id) {
+        return paymentRepository.findById(id);
+    }
+
+    public Payment updatePayment(String id, Payment updatedPayment) {
+        return paymentRepository.findById(id).map(payment -> {
+            payment.setPaymentIdFromStripe(updatedPayment.getPaymentIdFromStripe());
+            payment.setCustomerId(updatedPayment.getCustomerId());
+            payment.setOrderId(updatedPayment.getOrderId());
+            payment.setAmountPaid(updatedPayment.getAmountPaid());
+            payment.setPaymentStatus(updatedPayment.getPaymentStatus());
+            payment.setPaidAt(LocalDateTime.now());
+            return paymentRepository.save(payment);
+        }).orElseThrow(() -> new RuntimeException("Payment not found with id " + id));
+    }
+
+    public void deletePayment(String id) {
+        paymentRepository.deleteById(id);
     }
 
 }

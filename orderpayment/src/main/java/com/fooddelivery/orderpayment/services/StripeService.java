@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 public class StripeService {
 
     @Value("${stripe.secretKey}")
-    private String secretKey;
+//    private String secretKey;
 
     public StripeResponse checkoutProducts(ProductRequest productRequest){
-         Stripe.apiKey = secretKey;
+//        Stripe.apiKey = secretKey;
 
         SessionCreateParams.LineItem.PriceData.ProductData productData =  new SessionCreateParams.LineItem.PriceData.ProductData.Builder()
                 .setName(productRequest.getName()).build();
