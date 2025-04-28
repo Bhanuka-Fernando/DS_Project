@@ -26,10 +26,17 @@ public class RestaurantService {
         return restaurantRepository.findById(id);
     }
 
+    public Optional<Restaurant> getRestaurantByName(String name) {
+        return restaurantRepository.findByName(name);
+    }
+
+
     public Optional<Restaurant> updateRestaurant(String id, Restaurant updatedRestaurant) {
         return restaurantRepository.findById(id).map(existing -> {
             existing.setName(updatedRestaurant.getName());
             existing.setEmail(updatedRestaurant.getEmail());
+            existing.setPassword(updatedRestaurant.getPassword());
+            existing.setImage(updatedRestaurant.getImage());
             existing.setPhone(updatedRestaurant.getPhone());
             existing.setAddress(updatedRestaurant.getAddress());
             existing.setOwnerName(updatedRestaurant.getOwnerName());
@@ -49,16 +56,3 @@ public class RestaurantService {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

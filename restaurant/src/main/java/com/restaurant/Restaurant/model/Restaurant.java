@@ -14,12 +14,15 @@ public class Restaurant {
     @Id
     private String id;
     private String name;
+    private String password;
     private String email;
     private String phone;
     private String address;
     private String ownerName;
     private String openingTime;
     private String closingTime;
+    private String image;
+   // private String status = "pending";
 
     public void setId(String id) {
         this.id = id;
@@ -28,6 +31,8 @@ public class Restaurant {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setPassword(String password) { this.password = password; }
 
     public void setEmail(String email) {
         this.email = email;
@@ -53,6 +58,10 @@ public class Restaurant {
         this.closingTime = closingTime;
     }
 
+    public void setImage(String image) { this.image = image; }
+
+    //public void setStatus(String status) { this.status = status; }
+
     public String getId() {
         return id;
     }
@@ -60,6 +69,8 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
+    public String getPassword() { return password; }
 
     public String getEmail() {
         return email;
@@ -84,6 +95,10 @@ public class Restaurant {
     public String getClosingTime() {
         return closingTime;
     }
+
+    public String getImage() { return image; }
+
+    //public String getStatus() { return status; }
 
 
 
