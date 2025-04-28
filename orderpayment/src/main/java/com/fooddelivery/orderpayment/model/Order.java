@@ -22,5 +22,7 @@ public class Order {
     private String status;
     private LocalDateTime createdAt;
     private String orderImage;
-
+    private String fullName;
+    private String email;
+    private String deliveryLocation;
 }

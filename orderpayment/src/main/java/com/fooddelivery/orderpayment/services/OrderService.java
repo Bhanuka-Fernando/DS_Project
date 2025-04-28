@@ -71,8 +71,12 @@ public class OrderService {
                 .filter(item -> !item.getItemId().equals(itemId))
                 .toList();
 
-        order.setItems(updatedItems);
-        orderRepository.save(order);
+        if (updatedItems.isEmpty()) {
+            orderRepository.deleteById(orderId);
+        } else {
+            order.setItems(updatedItems);
+            orderRepository.save(order);
+        }
     }
 
 

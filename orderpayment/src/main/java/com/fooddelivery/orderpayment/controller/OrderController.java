@@ -48,6 +48,12 @@ public class OrderController {
         orderService.deleteOrderItem(orderId, itemId);
     }
 
+    // delete order by id
+    @DeleteMapping("/delete/{itemId}")
+    public void deleteOrderItemById(@PathVariable String itemId) {
+        orderService.deleteOrder(itemId);
+    }
+
 
 
 
