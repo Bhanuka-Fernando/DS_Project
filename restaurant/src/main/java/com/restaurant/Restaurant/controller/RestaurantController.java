@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/restaurants")
@@ -26,6 +28,9 @@ public class RestaurantController {
                 return ResponseEntity.badRequest().body("Invalid time format. Use HH:MM");
             }
 
+            // Set default status pending
+          //  restaurant.setStatus("pending");
+
             Restaurant savedRestaurant = restaurantService.createRestaurant(restaurant);
             return ResponseEntity.ok(savedRestaurant);
         } catch (Exception e) {
@@ -36,6 +41,43 @@ public class RestaurantController {
     private boolean isValidTimeFormat(String time) {
         return time != null && time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginRestaurant(@RequestBody Map<String, String> loginData) {
+        String name = loginData.get("name");
+        String password = loginData.get("password");
+
+        Optional<Restaurant> restaurantOpt = restaurantService.getRestaurantByName(name);
+
+        if (restaurantOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Restaurant not found");
+        }
+
+        Restaurant restaurant = restaurantOpt.get();
+
+        if (!restaurant.getPassword().equals(password)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
+        }
+
+       // if ("pending".equals(restaurant.getStatus())) {
+          //  return ResponseEntity.ok(Map.of("status", "pending"));
+       // }
+
+        return ResponseEntity.ok(Map.of(
+                //"status", "pending",
+                "id", restaurant.getId().toString(),
+                "name", restaurant.getName(),
+                "email", restaurant.getEmail(),
+                "phone", restaurant.getPhone(),
+                "address", restaurant.getAddress(),
+                "ownerName", restaurant.getOwnerName(),
+                "openingTime", restaurant.getOpeningTime(),
+                "closingTime", restaurant.getClosingTime(),
+                "image", restaurant.getImage()
+        ));
+    }
+
+
 
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
@@ -66,6 +108,3 @@ public class RestaurantController {
     }
 
 }
-
-
-
