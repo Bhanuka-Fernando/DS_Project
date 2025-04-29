@@ -2,10 +2,13 @@ package com.fooddelivery.orderpayment.services;
 
 import com.fooddelivery.orderpayment.dto.ProductRequest;
 import com.fooddelivery.orderpayment.dto.StripeResponse;
+import com.fooddelivery.orderpayment.model.Payment;
+import com.fooddelivery.orderpayment.repository.PaymentRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,10 @@ public class StripeService {
 
 //    @Value("${stripe.secretKey}")
     private String secretKey;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
 
     public StripeResponse checkoutProducts(ProductRequest productRequest){
 //        Stripe.apiKey = secretKey;
@@ -36,7 +43,7 @@ public class StripeService {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/payment-success")  // success navigate to this endpoint
+                .setSuccessUrl("http://localhost:5173/")  // success navigate to this endpoint
                 .setCancelUrl("http://localhost:8080/cancel")
                 .addLineItem(lineItem)
                 .build();
@@ -49,6 +56,19 @@ public class StripeService {
             System.out.println(ex.getMessage());
         }
 
+        if (session != null) {
+            Payment payment = new Payment();
+            payment.setSessionId(session.getId());
+            payment.setSessionUrl(session.getUrl());
+            payment.setStatus("PENDING");
+            payment.setItemName(productRequest.getName());
+            payment.setAmount(productRequest.getAmount());
+            payment.setQuantity(productRequest.getQuantity());
+            payment.setCurrency(productRequest.getCurrency());
+            payment.setCustomerId(productRequest.getCustomerId());
+
+            paymentRepository.save(payment);
+        }
 
         return StripeResponse.builder()
                 .status("SUCCESS")

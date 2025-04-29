@@ -16,9 +16,17 @@ public class Payment {
     @Id
     private String id;
     private String paymentIdFromStripe;
+    private String sessionId;
+    private String sessionUrl;
+    private String status;
+    private String itemName;
+    private Long amount;
+    private Long quantity;
+    private String currency;
+
     private String customerId;
     private String orderId;
-    private double amountPaid;
     private String paymentStatus;
     private LocalDateTime paidAt;
+
 }

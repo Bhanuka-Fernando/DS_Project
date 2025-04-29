@@ -15,12 +15,12 @@ public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    public Payment savePayment(String paymentIdFromStripe, String customerId, String orderId, double amount, String status) {
+    public Payment savePayment(String paymentIdFromStripe, String customerId, String orderId, Long amount, String status) {
         Payment payment = new Payment();
         payment.setPaymentIdFromStripe(paymentIdFromStripe);
         payment.setCustomerId(customerId);
         payment.setOrderId(orderId);
-        payment.setAmountPaid(amount);
+        payment.setAmount(amount);
         payment.setPaymentStatus(status);
         payment.setPaidAt(LocalDateTime.now());
 
@@ -47,7 +47,7 @@ public class PaymentService {
             payment.setPaymentIdFromStripe(updatedPayment.getPaymentIdFromStripe());
             payment.setCustomerId(updatedPayment.getCustomerId());
             payment.setOrderId(updatedPayment.getOrderId());
-            payment.setAmountPaid(updatedPayment.getAmountPaid());
+            payment.setAmount(updatedPayment.getAmount());
             payment.setPaymentStatus(updatedPayment.getPaymentStatus());
             payment.setPaidAt(LocalDateTime.now());
             return paymentRepository.save(payment);

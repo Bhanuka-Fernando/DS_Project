@@ -18,6 +18,15 @@ public class MenuItem {
     private double price;
     private String imagePath;
     private String restaurantId;
+    private String restaurantName;
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
 
     public void setId(String id) {
         this.id = id;
