@@ -19,6 +19,7 @@
     <module>orderpayment</module>
     <module>restaurant</module>
     <module>deliveryservice</module>
+      <module>useraccess</module>
   </modules>
 
   <build>
